@@ -17,9 +17,6 @@ public class ScoutAddingSwingWorker
     @Override
     protected String doInBackground()
         throws Exception {
-        Thread.sleep( 1000L );
-        publish( "1" );
-        Thread.sleep( 1000L );
         publish( "2" );
         Thread.sleep( 1000L );
         publish( "3" );
@@ -40,7 +37,11 @@ public class ScoutAddingSwingWorker
     @Override
     protected void process( List<String> chunks ) {
         for ( String text : chunks ) {
-            this.pane.setText( text );
+            StringBuilder content = new StringBuilder(this.pane.getText());
+            int insertPos = content.lastIndexOf("</body>");
+            content.insert(insertPos, "<br />");
+            content.insert(insertPos, "<a href=\"/\">"+text+"</a");
+            this.pane.setText( content.toString() );
         }
 
     }
