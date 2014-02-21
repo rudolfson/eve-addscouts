@@ -201,8 +201,10 @@ public class AddFrame {
                     }
                 }
 
+                String password = new String(passwordField.getPassword());
+
                 if (!logiBros.isEmpty() && !urls.isEmpty()) {
-                    ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput, logiBros, urls );
+                    ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput, logiBros, urls, password );
                     AddFrame.this.executor.execute( worker );
                 }
             }

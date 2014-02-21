@@ -11,11 +11,14 @@ public class ScoutAddingSwingWorker
     private JEditorPane paneToPublish;
     private List<String> pilots;
     private List<String> urls;
+    private String password;
 
-    public ScoutAddingSwingWorker( JEditorPane paneToPublish, List<String> pilots, List<String> urls ) {
+    public ScoutAddingSwingWorker( 
+            JEditorPane paneToPublish, List<String> pilots, List<String> urls, String password ) {
         this.paneToPublish = paneToPublish;
         this.pilots = pilots;
         this.urls = urls;
+        this.password = password;
     }
 
     @Override
@@ -27,10 +30,10 @@ public class ScoutAddingSwingWorker
                     ScoutAddingSwingWorker.this.publish(msg);
                 }
             };
-            ScoutAdder adder = new ScoutAdder(publisher, pilots, urls);
+            ScoutAdder adder = new ScoutAdder(publisher, pilots, urls, password);
             adder.start();
         } catch (Exception ex) {
-            publish(String.format("Received %s: %s", ex.getClass().getName(), ex.getMessage()));
+            publish(String.format("Received %s: %s.<br>Stopping.", ex.getClass().getName(), ex.getMessage()));
         }
         return "finished";
     }

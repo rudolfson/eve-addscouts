@@ -23,18 +23,20 @@ public class ScoutAdder {
     private List<String> reportsAndKills;
     private Set<String> consolidatedKills;
     private WebClient webClient;
+    private String password;
     private boolean stopIt = true;
 
     /**
      * Create a new instance for adding the given pilots to the given list of
      * reports and kill.
      */
-    public ScoutAdder(Publisher publisher, List<String> pilots, List<String> reportsAndKills) {
+    public ScoutAdder(Publisher publisher, List<String> pilots, List<String> reportsAndKills, String password) {
         this.publisher = publisher;
         this.pilots = pilots;
         this.reportsAndKills = reportsAndKills;
         this.consolidatedKills = new HashSet<String>();
         this.webClient = new WebClient( BrowserVersion.FIREFOX_17 );
+        this.password = password;
     }
 
     /**
@@ -60,7 +62,7 @@ public class ScoutAdder {
                 consolidatedKills.size()));
 
         for (String url : consolidatedKills) {
-            AddToKillMail atkm = new AddToKillMail(webClient, publisher, url, pilots);
+            AddToKillMail atkm = new AddToKillMail(webClient, publisher, url, pilots, password);
             atkm.start();
         }
     }
