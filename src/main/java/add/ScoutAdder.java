@@ -18,6 +18,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 public class ScoutAdder {
+    private Publisher publisher;
     private List<String> pilots;
     private List<String> reportsAndKills;
     private Set<String> consolidatedKills;
@@ -28,7 +29,8 @@ public class ScoutAdder {
      * Create a new instance for adding the given pilots to the given list of
      * reports and kill.
      */
-    public ScoutAdder(List<String> pilots, List<String> reportsAndKills) {
+    public ScoutAdder(Publisher publisher, List<String> pilots, List<String> reportsAndKills) {
+        this.publisher = publisher;
         this.pilots = pilots;
         this.reportsAndKills = reportsAndKills;
         this.consolidatedKills = new HashSet<String>();
@@ -39,14 +41,23 @@ public class ScoutAdder {
      * Start the work.
      */
     public void start() throws Exception {
+        publisher.publish(
+                String.format(
+                    "You entered %d pilots and %d urls. I will start by consolidating the kill mails.", 
+                    this.pilots.size(), this.reportsAndKills.size()));
         for (String url : reportsAndKills) {
+            publisher.publish(String.format("Checking <a href=\"%s\">%s</a>", url, url));
             if (isBattleReportUrl(url)) {
                 List<String> kills = extractKillsFromBattleReport(url); 
                 this.consolidatedKills.addAll(kills);
+                publisher.publish(String.format("Added %d kill mails from battle report", kills.size()));
             } else if (isKillUrl(url)) {
                 this.consolidatedKills.add(url);
+                publisher.publish("Added kill mail");
             }
         }
+        publisher.publish(String.format("Finished consolidating mails, I got %d distinct of them now.",
+                consolidatedKills.size()));
     }
 
     /**

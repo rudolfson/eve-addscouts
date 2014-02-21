@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -106,7 +108,7 @@ public class AddFrame {
         springLayout.putConstraint( SpringLayout.EAST, lblBattleReportsAnd, -6, SpringLayout.WEST, scrollReports );
         springLayout.putConstraint( SpringLayout.WEST, scrollReports, 0, SpringLayout.WEST, scrollLogibros );
 
-        JTextArea txtrLogibros = new JTextArea();
+        final JTextArea txtrLogibros = new JTextArea();
         scrollLogibros.setViewportView( txtrLogibros );
 
         JLabel lblenterLinksTo =
@@ -121,7 +123,7 @@ public class AddFrame {
             this.frmEuniScoutadder.getContentPane() );
         this.frmEuniScoutadder.getContentPane().add( scrollReports );
 
-        JTextArea txtrReports = new JTextArea();
+        final JTextArea txtrReports = new JTextArea();
         scrollReports.setViewportView( txtrReports );
 
         JLabel lblNewLabel = new JLabel( "Password" );
@@ -183,7 +185,10 @@ public class AddFrame {
         btnAddThem.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput );
+                dtrpnOutput.setText("");
+                List<String> logiBros = Arrays.asList(txtrLogibros.getText().split("[\\r\\n]"));
+                List<String> urls = Arrays.asList(txtrReports.getText().split("[\\r\\n]"));
+                ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput, logiBros, urls );
                 AddFrame.this.executor.execute( worker );
             }
         } );
