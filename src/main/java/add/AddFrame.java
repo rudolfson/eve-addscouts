@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -85,7 +86,7 @@ public class AddFrame {
         JScrollPane scrollLogibros = new JScrollPane();
         springLayout.putConstraint( SpringLayout.SOUTH, lblEnterOneName, 0, SpringLayout.SOUTH, scrollLogibros );
         springLayout.putConstraint( SpringLayout.EAST, lblEnterOneName, -6, SpringLayout.WEST, scrollLogibros );
-        springLayout.putConstraint( SpringLayout.WEST, scrollLogibros, 150, SpringLayout.WEST,
+        springLayout.putConstraint( SpringLayout.WEST, scrollLogibros, 200, SpringLayout.WEST,
             this.frmEuniScoutadder.getContentPane() );
         springLayout.putConstraint( SpringLayout.SOUTH, scrollLogibros, 200, SpringLayout.NORTH,
             this.frmEuniScoutadder.getContentPane() );
@@ -186,10 +187,24 @@ public class AddFrame {
             @Override
             public void actionPerformed( ActionEvent e ) {
                 dtrpnOutput.setText("");
-                List<String> logiBros = Arrays.asList(txtrLogibros.getText().split("[\\r\\n]"));
-                List<String> urls = Arrays.asList(txtrReports.getText().split("[\\r\\n]"));
-                ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput, logiBros, urls );
-                AddFrame.this.executor.execute( worker );
+                List<String> logiBros = new ArrayList<String>();
+                for (String pilot : Arrays.asList(txtrLogibros.getText().split("[\\r\\n]"))) {
+                    if (pilot != null && pilot.trim().length() != 0) {
+                        logiBros.add(pilot.trim());
+                    }
+                }
+                
+                List<String> urls = new ArrayList<String>();
+                for (String url : Arrays.asList(txtrReports.getText().split("[\\r\\n]"))) {
+                    if (url != null && url.trim().length() != 0) {
+                        urls.add(url.trim());
+                    }
+                }
+
+                if (!logiBros.isEmpty() && !urls.isEmpty()) {
+                    ScoutAddingSwingWorker worker = new ScoutAddingSwingWorker( dtrpnOutput, logiBros, urls );
+                    AddFrame.this.executor.execute( worker );
+                }
             }
         } );
 

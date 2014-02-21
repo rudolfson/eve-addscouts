@@ -15,6 +15,8 @@ import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.WebRequest;
+import com.gargoylesoftware.htmlunit.HttpMethod;
 
 public class AddToKillMail {
 
@@ -40,6 +42,8 @@ public class AddToKillMail {
                 publisher.publish(String.format("%s already on kill mail - skipping", pilot));
             } else {
                 publisher.publish(String.format("Adding %s", pilot));
+                WebRequest req = new WebRequest(new URL(killMailUrl, HttpMethod.POST));
+                req.gg
             }
         }
         // read all pilot names again and confirm that all pilots are listed

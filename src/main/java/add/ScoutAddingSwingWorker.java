@@ -30,7 +30,7 @@ public class ScoutAddingSwingWorker
             ScoutAdder adder = new ScoutAdder(publisher, pilots, urls);
             adder.start();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            publish(String.format("Received %s: %s", ex.getClass().getName(), ex.getMessage()));
         }
         return "finished";
     }
