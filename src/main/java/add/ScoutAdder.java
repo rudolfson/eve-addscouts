@@ -58,6 +58,11 @@ public class ScoutAdder {
         }
         publisher.publish(String.format("Finished consolidating mails, I got %d distinct of them now.",
                 consolidatedKills.size()));
+
+        for (String url : consolidatedKills) {
+            AddToKillMail atkm = new AddToKillMail(webClient, publisher, url, pilots);
+            atkm.start();
+        }
     }
 
     /**
