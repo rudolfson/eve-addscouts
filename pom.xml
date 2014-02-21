@@ -5,7 +5,7 @@
 
 	<groupId>evetoolbox</groupId>
 	<artifactId>addscouts</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 
 	<properties>
 		<htmlunit.version>2.13</htmlunit.version>

@@ -54,6 +54,7 @@ public class AddToKillMail {
                     params.add(new NameValuePair("scoutsubmit", "add pilot"));
                     params.add(new NameValuePair("scoutname", pilot));
                     params.add(new NameValuePair("password", password));
+                    request.setRequestParameters(params);
                     webClient.getPage(request);
                 } catch (Exception ex) {
                     publisher.publish(
